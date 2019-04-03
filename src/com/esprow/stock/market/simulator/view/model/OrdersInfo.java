@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
@@ -72,6 +73,8 @@ public class OrdersInfo extends Composite {
 		
 		Label lblOperation = new Label(compositeOperation, SWT.NONE);
 		comboOperation = new Combo(compositeOperation, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.SIMPLE);
+		comboOperation.add("Buy");
+		comboOperation.add("Sell");
 		btnAdd = new Button(composite, SWT.None);
 		
 		lblPrice.setText("Price:");
@@ -126,7 +129,15 @@ public class OrdersInfo extends Composite {
 			fd.left  = new FormAttachment(compositeOperation,5,SWT.RIGHT);
 			btnAdd.setLayoutData(fd);
 		}
+		btnAdd.addSelectionListener(new SelectionAdapter() {
 		
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			final String[] strings = new String[] {txtPrice.getText(),comboOperation.getText()};
+			final TableItem newItem = new TableItem(buyTable, SWT.NONE);
+			newItem.setText(strings);
+		}
+		});
 
 		
 		CTabFolder tabFolder = new CTabFolder(this, SWT.BORDER | SWT.BOTTOM);

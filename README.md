@@ -1,1 +1,3 @@
-# SWT_stock_market_simulator
+# SWT stock market simulator
+
+SWT eclipse RCP project.

@@ -17,7 +17,7 @@ public final class Application {
 		 new MainViewContainer(shell);
 		
 		shell.pack();
-		shell.setSize(800, 600);
+		shell.setSize(850, 600);
 		shell.open();
 		// Set up the event loop.
 		while (!shell.isDisposed()) {

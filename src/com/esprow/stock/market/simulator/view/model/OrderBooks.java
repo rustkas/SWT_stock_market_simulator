@@ -16,6 +16,8 @@ public class OrderBooks extends Composite {
 
 	private Tree orderBookTree;
 
+	
+	
 	public OrderBooks(Composite parent) {
 		super(parent, SWT.None);
 		setLayout(new FormLayout());

@@ -75,6 +75,7 @@ public class OrdersInfo extends Composite {
 		comboOperation = new Combo(compositeOperation, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.SIMPLE);
 		comboOperation.add("Buy");
 		comboOperation.add("Sell");
+		comboOperation.select(0);
 		btnAdd = new Button(composite, SWT.None);
 		
 		lblPrice.setText("Price:");
@@ -136,6 +137,11 @@ public class OrdersInfo extends Composite {
 			final String[] strings = new String[] {txtPrice.getText(),comboOperation.getText()};
 			final TableItem newItem = new TableItem(buyTable, SWT.NONE);
 			newItem.setText(strings);
+			TableColumn[] columns = buyTable.getColumns();
+//			for (int i = 0; i < columns.length; i++) {
+//				columns[0].pack();
+//			}
+//			newItem.getParent().layout(true);
 		}
 		});
 
@@ -219,5 +225,7 @@ public class OrdersInfo extends Composite {
 		tblclmnNewColumn_2.setWidth(100);
 		tblclmnNewColumn_2.setText("Partial/Full");
 		
+		
+		tabFolder.setSelection(0);
 	}
 }

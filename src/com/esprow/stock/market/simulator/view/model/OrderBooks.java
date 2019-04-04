@@ -19,8 +19,8 @@ public class OrderBooks extends Composite {
 	public OrderBooks(Composite parent) {
 		super(parent, SWT.None);
 		setLayout(new FormLayout());
-
-		Composite composite = new Composite(this, SWT.NONE);
+		final Composite thisComposite = this;
+		final Composite composite = new Composite(this, SWT.NONE);
 		FormData fd_composite = new FormData();
 		fd_composite.top = new FormAttachment(0, 5);
 		fd_composite.left = new FormAttachment(0, 5);
@@ -31,11 +31,21 @@ public class OrderBooks extends Composite {
 		btnAdd.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(0 < orderBookTree.getItemCount()) {
+				if (0 < orderBookTree.getItemCount()) {
 					return;
 				}
 				final TreeItem item = new TreeItem(orderBookTree, SWT.NONE);
 				item.setText("Test");
+				
+				Composite orderInfo = new OrdersInfo(thisComposite.getParent());
+				FormData fd_composite_1 = new FormData();
+				fd_composite_1.top = new FormAttachment(0, 5);
+				fd_composite_1.left = new FormAttachment(thisComposite, 0, SWT.RIGHT);		
+				fd_composite_1.right = new FormAttachment(100, -5);
+				fd_composite_1.bottom = new FormAttachment(100, 5);
+				orderInfo.setLayoutData(fd_composite_1);
+				thisComposite.getParent().layout(true);
+				//orderInfo.getShell().pack();
 			}
 		});
 		btnAdd.setToolTipText("Add order book");
@@ -53,6 +63,6 @@ public class OrderBooks extends Composite {
 		composite_1.setLayout(new FillLayout(SWT.VERTICAL));
 
 		orderBookTree = new Tree(composite_1, SWT.BORDER);
-
+		// orderBookTree.add
 	}
 }

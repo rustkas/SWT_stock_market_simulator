@@ -1,9 +1,13 @@
 package com.esprow.stock.market.simulator.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -14,9 +18,13 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import com.esprow.stock.market.simulator.view.enums.Operations;
+import com.esprow.stock.market.simulator.view.listeners.AddNewOrderItemSelectionListener;
+import com.esprow.stock.market.simulator.view.listeners.SpecialTableEditorMouseAdapter;
+import com.esprow.stock.market.simulator.view.listeners.TabEditorSelectionListener;
 
 public class OrdersInfo extends Composite {
 	private Table orderTable;
@@ -69,7 +77,7 @@ public class OrdersInfo extends Composite {
 		txtQuality = new Text(compositeQuality, SWT.BORDER);
 
 		Label lblOperation = new Label(compositeOperation, SWT.NONE);
-		comboOperation = new Combo(compositeOperation, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.SIMPLE);
+		comboOperation = new Combo(compositeOperation, SWT.READ_ONLY | SWT.BORDER);
 		comboOperation.add(Operations.Buy.name());
 		comboOperation.add(Operations.Sell.name());
 		comboOperation.select(0);
@@ -117,6 +125,7 @@ public class OrdersInfo extends Composite {
 			FormData fd = new FormData();
 			fd.top = new FormAttachment(lblOperation, 0, SWT.CENTER);
 			fd.left = new FormAttachment(lblOperation, 5, SWT.RIGHT);
+
 			comboOperation.setLayoutData(fd);
 		}
 
@@ -126,7 +135,7 @@ public class OrdersInfo extends Composite {
 			fd.left = new FormAttachment(compositeOperation, 5, SWT.RIGHT);
 			btnAdd.setLayoutData(fd);
 		}
-		
+
 		CTabFolder tabFolder = new CTabFolder(this, SWT.BORDER | SWT.BOTTOM);
 
 		{
@@ -149,25 +158,40 @@ public class OrdersInfo extends Composite {
 		orderTable.setHeaderVisible(true);
 		orderTable.setLinesVisible(true);
 
-		TableColumn tblclmnIdOrder = new TableColumn(orderTable, SWT.NONE);
-		tblclmnIdOrder.setWidth(100);
-		tblclmnIdOrder.setText("Id Order");
+		List<TableColumn> ordersColumnList = new ArrayList<TableColumn>();
 
-		TableColumn tblclmnNewColumn = new TableColumn(orderTable, SWT.NONE);
-		tblclmnNewColumn.setWidth(100);
-		tblclmnNewColumn.setText("Price");
+		{
+			TableColumn tableColumn = new TableColumn(orderTable, SWT.NONE);
+			tableColumn.setWidth(100);
+			tableColumn.setText("Id Order");
+			ordersColumnList.add(tableColumn);
+		}
+		{
+			TableColumn tblclmnNewColumn = new TableColumn(orderTable, SWT.NONE);
+			tblclmnNewColumn.setWidth(100);
+			tblclmnNewColumn.setText("Price");
 
-		TableColumn tblclmnNewColumn_1 = new TableColumn(orderTable, SWT.NONE);
-		tblclmnNewColumn_1.setWidth(100);
-		tblclmnNewColumn_1.setText("Quality");
+		}
+		{
+			TableColumn tableColumn = new TableColumn(orderTable, SWT.NONE);
+			tableColumn.setWidth(100);
+			tableColumn.setText("Quality");
+			ordersColumnList.add(tableColumn);
+		}
+		{
+			TableColumn tableColumn = new TableColumn(orderTable, SWT.NONE);
+			tableColumn.setWidth(100);
+			tableColumn.setText("Time");
+			ordersColumnList.add(tableColumn);
+		}
+		{
+			TableColumn tableColumn = new TableColumn(orderTable, SWT.NONE);
+			tableColumn.setWidth(100);
+			tableColumn.setText("Buy/Sell");
+			ordersColumnList.add(tableColumn);
+		}
 
-		TableColumn tblclmnTime = new TableColumn(orderTable, SWT.NONE);
-		tblclmnTime.setWidth(100);
-		tblclmnTime.setText("Time");
-
-		TableColumn tblclmnBuysell = new TableColumn(orderTable, SWT.NONE);
-		tblclmnBuysell.setWidth(100);
-		tblclmnBuysell.setText("Buy/Sell");
+		orderTable.addMouseListener(new SpecialTableEditorMouseAdapter(orderTable));
 
 		CTabItem tbtmLegers = new CTabItem(tabFolder, SWT.NONE);
 		tbtmLegers.setText("Legers");
@@ -205,18 +229,39 @@ public class OrdersInfo extends Composite {
 		tblclmnNewColumn_2.setWidth(100);
 		tblclmnNewColumn_2.setText("Partial/Full");
 
-		final TableEditor tableEditor = new TableEditor(orderTable);
-		tableEditor.horizontalAlignment = SWT.LEFT;
-		tableEditor.grabHorizontal = true;
-		tableEditor.minimumWidth = 50;
 
-		// selection listener listener
-		new TabRowEditorSelectionListener(orderTable);
-		new TabRowEditorSelectionListener(ledgerTable);
+		new TabEditorSelectionListener(ledgerTable);
 		btnAdd.addSelectionListener(
 				new AddNewOrderItemSelectionListener(txtPrice, txtQuality, orderTable, comboOperation, ledgerTable));
 
 		tabFolder.setSelection(0);
+
+		orderTable.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.keyCode == SWT.DEL) {
+
+					int selectionIndex = orderTable.getSelectionIndex();
+					if (0 <= selectionIndex) {
+						TableItem item = orderTable.getItem(selectionIndex);
+						Object date = item.getData();
+
+						// remove data from order list
+						Table parent2 = item.getParent();
+						item.dispose();
+						parent2.layout(true);
+
+					}
+
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+			}
+		});
 	}
 
 }

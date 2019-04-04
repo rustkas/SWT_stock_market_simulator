@@ -1,4 +1,4 @@
-package com.esprow.stock.market.simulator.view;
+package com.esprow.stock.market.simulator.view.listeners;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -99,6 +99,8 @@ public class AddNewOrderItemSelectionListener extends SelectionAdapter {
 
 		final TableItem newItem = new TableItem(orderTable, SWT.NONE);
 
+		
+		
 		if (Operations.Buy.name().equals(comboOperation.getText())) {
 			orderItem = orderList.createBuyItem(price, quality);
 			buyMap.put(price, newItem);

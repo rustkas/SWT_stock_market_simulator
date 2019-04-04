@@ -7,10 +7,10 @@ import com.esprow.stock.market.simulator.view.enums.Operations;
 public abstract class OrderItem{
 
 	private final int id;
-	private final double price;
-	private final long  quality;
-	private final LocalDateTime dateTime;
-	private final Operations operation;
+	private double price;
+	private  long  quality;
+	private  LocalDateTime dateTime;
+	private Operations operation;
 	
 	public OrderItem(
 			int id,
@@ -44,6 +44,22 @@ public abstract class OrderItem{
 
 	public Operations getOperation() {
 		return operation;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public void setQuality(long quality) {
+		this.quality = quality;
+	}
+
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
+	}
+
+	public void setOperation(Operations operation) {
+		this.operation = operation;
 	}
 	
 

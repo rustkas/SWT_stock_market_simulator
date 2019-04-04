@@ -15,4 +15,8 @@ private static final DateTimeFormatter FORMATTER;
 	public static String getString(LocalDateTime dateTime) {
 		return dateTime.format(FORMATTER);
 	}
+	
+	public static String getString() {
+	return getString(LocalDateTime.now());
+	}
 }

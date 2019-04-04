@@ -23,6 +23,8 @@ public class TabRowEditorSelectionListener extends SelectionAdapter {
 	    editor.grabVertical = true;
 	    cursor.addSelectionListener(this);
 	}
+	
+	
 	 // This is called as the user navigates around the table
     public void widgetSelected(SelectionEvent event) {
       // Select the row in the table where the TableCursor is

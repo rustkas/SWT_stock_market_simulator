@@ -4,7 +4,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-import com.esprow.stock.market.simulator.view.model.MainViewContainer;
+import com.esprow.stock.market.simulator.view.MainViewContainer;
 
 public final class Application {
 	private static final String APP_NAME = "Stock market simulator";

@@ -5,6 +5,10 @@ import org.eclipse.swt.custom.ControlEditor;
 import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Table;
@@ -49,6 +53,42 @@ public class TabRowEditorSelectionListener extends SelectionAdapter {
           }
         }
       });
+      text.addMouseListener(new MouseAdapter() {
+    	  @Override
+    	public void mouseDoubleClick(MouseEvent e) {
+    		  cursor.getRow().setText(cursor.getColumn(), text.getText());
+    		  System.out.println("mouse double click");
+    	}
+    	  @Override
+    	public void mouseDown(MouseEvent e) {
+    		  cursor.getRow().setText(cursor.getColumn(), text.getText());
+    		  System.out.println("mouse down");
+    	}
+    	  @Override
+    	public void mouseUp(MouseEvent e) {
+    		  text.dispose();
+    		  System.out.println("mouse up");
+    	}
+	});
+      text.addMouseTrackListener(new MouseTrackAdapter() {
+	@Override
+	public void mouseEnter(MouseEvent e) {
+		cursor.getRow().setText(cursor.getColumn(), text.getText());
+		  System.out.println("mouse enter");
+	}
+	@Override
+		public void mouseExit(MouseEvent e) {
+		  text.dispose();
+		  System.out.println("mouse exit");
+		}
+      });
+      text.addMouseMoveListener(new MouseMoveListener() {
+		
+		@Override
+		public void mouseMove(MouseEvent e) {
+			System.out.println("mouse move");
+		}
+	});
       editor.setEditor(text);
     }
 }
